@@ -13,11 +13,12 @@ def gatherData(user, password):
 
     form = browser.get_form(action=re.compile(r'validacao'))
 
-    form['p_user'].value = 'up' + user
+    form['p_user'].value = user
     form['p_pass'].value = password
 
     browser.submit_form(form)
-    accountURL = baseURL + 'gpag_ccorrente_geral.conta_corrente_view?pct_cod=' + user
+    user_numbers = re.sub("[^0-9]", "", user)
+    accountURL = baseURL + 'gpag_ccorrente_geral.conta_corrente_view?pct_cod=' + user_numbers
     browser.open(accountURL)
 
     files = []    
@@ -44,7 +45,7 @@ def gatherData(user, password):
         printProgressBar(i, len(titles), prefix = 'Progress:', suffix = 'Complete', length = 50)    
 
 def save_files():
-    print('upxxxxxxxxx:', end=' ')
+    print('Username:', end=' ')
     user = input()
     password = getpass.getpass()
     
